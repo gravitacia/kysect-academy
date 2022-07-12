@@ -2,14 +2,14 @@
 
 public class Properties
 {
-    public Properties(string path1, string path2, int percent)
+    public Properties(string path1, string path2, double percent)
     {
         Path1 = path1;
         Path2 = path2;
         Percent = percent;
     }
 
-    public int Percent { get; }
+    public double Percent { get; }
 
     public string Path2 { get; }
 
