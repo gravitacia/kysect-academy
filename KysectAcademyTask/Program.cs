@@ -16,7 +16,7 @@ if (path != null)
         string str1 = File.ReadAllText(allFiles[i]);
         string str2 = File.ReadAllText(allFiles[i+1]);
 
-        IEnumerable<DiffResult<char>> results = DiffUtil.Diff(str1, str2);
+        IEnumerable<DiffResult<char>> results = new EntitiesCompare().Comparison(str1, str2);
 
         count += results.Count(r => r.Status == NetDiff.DiffStatus.Equal);
 
