@@ -2,19 +2,23 @@
 using KysectAcademyTask;
 using NetDiff;
 
-string? path = Deserializer.DeserializeConfig();
-string? pathToSerialize = Deserializer.SerializeConfig();
+string? path = Deserializer.GetPath();
+string? pathToSerialize = Deserializer.SetPath();
 
 int count = 0;
 
-if (path != null)
+
+if (path == null)
+{
+    throw new Exception("Your path are empty!");
+}
+else
 {
     string[] allFiles = Directory.GetFiles(path);
-
     for (int i = 0; i < allFiles.Length - 1; i++)
     {
         string str1 = File.ReadAllText(allFiles[i]);
-        string str2 = File.ReadAllText(allFiles[i+1]);
+        string str2 = File.ReadAllText(allFiles[i + 1]);
 
         IEnumerable<DiffResult<char>> results = new EntitiesCompare().Comparison(str1, str2);
 
@@ -27,18 +31,14 @@ if (path != null)
         }
         else
         {
-            percent = count/str2.Length;
+            percent = count / str2.Length;
         }
-        
+
         var property = new Properties(str1, str2, percent);
         if (pathToSerialize == null) continue;
         await using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
         await JsonSerializer.SerializeAsync<Properties>(fs, property);
         Console.WriteLine("Data has been saved to file");
     }
-}
-else
-{
-    throw new Exception("Your path are empty!");
-}
     
+}
