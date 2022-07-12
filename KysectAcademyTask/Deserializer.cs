@@ -2,9 +2,9 @@
 
 namespace KysectAcademyTask;
 
-public class Deserialize
+public class Deserializer
 {
-    public static string? deserializer()
+    public static string? DeserializeConfig()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -12,7 +12,7 @@ public class Deserialize
         return config.GetValue<string>("Path1");
     }
     
-    public static string? serializer()
+    public static string? SerializeConfig()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
