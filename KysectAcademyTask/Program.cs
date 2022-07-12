@@ -2,10 +2,10 @@
 using KysectAcademyTask;
 using NetDiff;
 
-string? path = Deserialize.deserializer();
-string? pathToSerilize = Deserialize.serializer();
+string? path = Deserializer.DeserializeConfig();
+string? pathToSerilize = Deserializer.SerializeConfig();
 
-if (path != null)
+if (null != path)
 {
     string[] allFiles = Directory.GetFiles(path);
 
@@ -47,7 +47,9 @@ if (path != null)
             Console.WriteLine("Data has been saved to file");
         }
     }
-    
-    
+}
+else
+{
+    throw new Exception("Your path are empty!");
 }
     
