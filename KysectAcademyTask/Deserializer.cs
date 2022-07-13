@@ -6,7 +6,7 @@ public class Deserializer
 {
     public string? RootPath { get; set; }
     public string? PathForResults { get; set; }
-    public static string? GetPath()
+    public static string? GetRootPath()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -17,7 +17,7 @@ public class Deserializer
         return rootPath?.RootPath;
     }
     
-    public static string? SetPath()
+    public static string? GetResultsPath()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)

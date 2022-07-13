@@ -2,8 +2,8 @@
 using KysectAcademyTask;
 using NetDiff;
 
-string? path = Deserializer.GetPath();
-string? pathToSerialize = Deserializer.SetPath();
+string? path = Deserializer.GetRootPath();
+string? pathToSerialize = Deserializer.GetResultsPath();
 
 int count = 0;
 
@@ -20,7 +20,7 @@ else
         string str1 = File.ReadAllText(allFiles[i]);
         string str2 = File.ReadAllText(allFiles[i + 1]);
 
-        IEnumerable<DiffResult<char>> results = new EntitiesCompare().Comparison(str1, str2);
+        IEnumerable<DiffResult<char>> results = new Comparator().EntitiesCompare(str1, str2);
 
         count += results.Count(r => r.Status == NetDiff.DiffStatus.Equal);
 
@@ -34,10 +34,10 @@ else
             percent = count / str2.Length;
         }
 
-        var property = new Properties(str1, str2, percent);
+        var property = new ComparisonResult(str1, str2, percent);
         if (pathToSerialize == null) continue;
         await using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
-        await JsonSerializer.SerializeAsync<Properties>(fs, property);
+        await JsonSerializer.SerializeAsync<ComparisonResult>(fs, property);
         Console.WriteLine("Data has been saved to file");
     }
     

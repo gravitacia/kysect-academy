@@ -1,8 +1,8 @@
 ﻿namespace KysectAcademyTask;
 
-public class Properties
+public class ComparisonResult
 {
-    public Properties(string path1, string path2, double percent)
+    public ComparisonResult(string path1, string path2, double percent)
     {
         Path1 = path1;
         Path2 = path2;
