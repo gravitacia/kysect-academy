@@ -14,4 +14,5 @@ public class ComparisonResult
     public string Path2 { get; }
 
     public string Path1 { get; }
+    
 }
