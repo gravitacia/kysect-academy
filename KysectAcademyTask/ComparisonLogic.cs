@@ -6,7 +6,7 @@ namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    public async void GetResults(string? path, string? pathToSerialize)
+    public async void CompareFilesInOneFolder(string? path, string? pathToSerialize)
     {
         if (path == null) throw new Exception("Your path are empty!");
         string[] allFiles = Directory.GetFiles(path);
@@ -24,11 +24,11 @@ public class ComparisonLogic
             double percent;
             if (str1.Length > str2.Length)
             {
-                percent = count / str1.Length;
+                percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
             }
             else
             {
-                percent = count / str2.Length;
+                percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
             }
 
             var comparisonResult = new ComparisonResult(str1, str2, percent);
@@ -39,7 +39,7 @@ public class ComparisonLogic
         }
     }
 
-    public bool CompareFilesByBites(string? firstPath, string? secondPath)
+    public Dictionary<string, double> CompareFilesByBites(string? firstPath, string? secondPath)
     {
         if (firstPath == null) throw new Exception("Your path are empty!");
         if (secondPath == null) throw new Exception("Your path are empty!");
@@ -48,8 +48,9 @@ public class ComparisonLogic
         string[] allSecondPathFiles = Directory.GetFiles(secondPath);
         
         int count = 0;
-        double percent;
-        
+
+        var percents = new Dictionary<string, double>();
+
         foreach (string curFirstFile in allFirstPathFiles)
         {
             foreach (string curSecondFile in allSecondPathFiles)
@@ -64,32 +65,26 @@ public class ComparisonLogic
                     }
                 }
                 
-                // byte[] firstHash = MD5.Create().ComputeHash(first);
-                //byte[] secondHash = MD5.Create().ComputeHash(second);
-
-                //for (int i = 0; i < first.Length; i++)
-                //{
-                    //if (firstHash[i] != secondHash[i])
-                       // count++;
-                //}
-                
                 string str1 = File.ReadAllText(curFirstFile);
                 string str2 = File.ReadAllText(curSecondFile);
-                
+
+                double percent;
                 if (str1.Length > str2.Length)
                 {
-                    percent = count / str1.Length;
-                    Console.WriteLine(percent);
+                    percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
+                    string key = "Files being compared: " +  Path.GetFileName(str1) + "and" + Path.GetFileName(str2);
+                    percents.Add(key, percent);
                 }
                 else
                 {
-                    percent = count / str2.Length;
-                    Console.WriteLine(percent);
+                    percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
+                    string key = "Files being compared: " +  Path.GetFileName(str1) + "and" +  Path.GetFileName(str2);
+                    percents.Add(key, percent);
                 }
             }
         }
 
-        return false;
+        return percents;
     }
 
 
