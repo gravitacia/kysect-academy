@@ -19,7 +19,7 @@ public class ComparisonLogic
 
             IEnumerable<DiffResult<char>> results = new Comparator().EntitiesCompare(str1, str2);
 
-            count += results.Count(r => r.Status == NetDiff.DiffStatus.Equal);
+            count += results.Count(r => r.Status == DiffStatus.Equal);
 
             double percent;
             if (str1.Length > str2.Length)
@@ -34,7 +34,7 @@ public class ComparisonLogic
             var comparisonResult = new ComparisonResult(str1, str2, percent);
             if (pathToSerialize == null) continue;
             await using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
-            await JsonSerializer.SerializeAsync<ComparisonResult>(fs, comparisonResult);
+            await JsonSerializer.SerializeAsync(fs, comparisonResult);
             Console.WriteLine("Data has been saved to file");
         }
     }
@@ -51,7 +51,7 @@ public class ComparisonLogic
 
         var percents = new Dictionary<string, double>();
 
-        foreach (string curFirstFile in allFirstPathFiles)
+        foreach (string curFirstFile in allFirstPathFiles) 
         {
             foreach (string curSecondFile in allSecondPathFiles)
             {
@@ -72,13 +72,13 @@ public class ComparisonLogic
                 if (str1.Length > str2.Length)
                 {
                     percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
-                    string key = "Files being compared: " +  Path.GetFileName(str1) + "and" + Path.GetFileName(str2);
+                    string key = Path.GetFileName(str1) + Path.GetFileName(str2);
                     percents.Add(key, percent);
                 }
                 else
                 {
                     percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-                    string key = "Files being compared: " +  Path.GetFileName(str1) + "and" +  Path.GetFileName(str2);
+                    string key = Path.GetFileName(str1) + Path.GetFileName(str2);
                     percents.Add(key, percent);
                 }
             }
@@ -118,6 +118,7 @@ public class ComparisonLogic
                 
                     IEnumerable<FileInfo> queryCommonFiles = list1.Intersect(list2, myFileCompare);
 
+                    
                     if (queryCommonFiles.Any())
                     {
                         Console.WriteLine("The following files are in both folders:");
