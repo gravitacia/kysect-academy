@@ -1,11 +1,7 @@
 ﻿using KysectAcademyTask;
-using KysectAcademyTask.Config;
 
-//string? rootPath = Deserializer.GetRootPath();
-//string? pathToSerialize = Deserializer.GetResultsPath();
+var content = Deserializer.GetContent();
+var comparator = new Comparator();
 
-//new ComparisonLogic().GetResults(rootPath, pathToSerialize);
 
-ResultFilter? res = new Deserializer().GetResultFilter();
-
-Console.WriteLine(res.PathForResults, res.FileType);
+if (content != null) new ComparisonLogic().CompareFilesInOneFolder(content.RootPath, content.PathForResults, comparator);

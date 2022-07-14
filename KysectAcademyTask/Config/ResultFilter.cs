@@ -2,12 +2,10 @@
 
 public class ResultFilter
 {
-    public ResultFilter(string pathForResults, string fileType)
+    public ResultFilter()
     {
-        PathForResults = pathForResults;
-        FileType = fileType;
     }
 
-    public string PathForResults { get; set; }
-    public string FileType { get; set; }
+    public string? PathForResults { get; set; }
+    public string? FileType { get; set; }
 }

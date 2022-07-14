@@ -4,7 +4,6 @@ public class FileFilter
 {
     public FileFilter()
     {
-        new Deserializer().GetFileFilter();
     }
     
     public List<string>? ExtensionsBlackList { get; set; }

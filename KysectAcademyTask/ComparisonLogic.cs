@@ -1,94 +1,98 @@
-﻿//using System.Security.Cryptography;
-using System.Text.Json;
+﻿using System.Text.Json;
 using NetDiff;
 
 namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    public async void CompareFilesInOneFolder(string? path, string? pathToSerialize)
+    public async void CompareFilesInOneFolder(string? path, string? pathToSerialize, Comparator comparator)
     {
         if (path == null) throw new Exception("Your path are empty!");
         string[] allFiles = Directory.GetFiles(path);
 
         int count = 0;
+
         for (int i = 0; i < allFiles.Length - 1; i++)
         {
-            string str1 = File.ReadAllText(allFiles[i]);
-            string str2 = File.ReadAllText(allFiles[i + 1]);
-
-            IEnumerable<DiffResult<char>> results = new Comparator().EntitiesCompare(str1, str2);
-
-            count += results.Count(r => r.Status == DiffStatus.Equal);
-
-            double percent;
-            if (str1.Length > str2.Length)
+            for (int j = i + 1; j < allFiles.Length - 1; j++)
             {
-                percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
-            }
-            else
-            {
-                percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-            }
 
-            var comparisonResult = new ComparisonResult(str1, str2, percent);
-            if (pathToSerialize == null) continue;
-            await using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
-            await JsonSerializer.SerializeAsync(fs, comparisonResult);
-            Console.WriteLine("Data has been saved to file");
-        }
-    }
+                string str1 = File.ReadAllText(allFiles[i]);
+                string str2 = File.ReadAllText(allFiles[j]);
 
-    public Dictionary<string, double> CompareFilesByBites(string? firstPath, string? secondPath)
-    {
-        if (firstPath == null) throw new Exception("Your path are empty!");
-        if (secondPath == null) throw new Exception("Your path are empty!");
+                IEnumerable<DiffResult<char>> results = comparator.EntitiesCompare(str1, str2);
 
-        string[] allFirstPathFiles = Directory.GetFiles(firstPath);
-        string[] allSecondPathFiles = Directory.GetFiles(secondPath);
-        
-        int count = 0;
-
-        var percents = new Dictionary<string, double>();
-
-        foreach (string curFirstFile in allFirstPathFiles) 
-        {
-            foreach (string curSecondFile in allSecondPathFiles)
-            {
-                using (FileStream first = File.OpenRead(curFirstFile))
-                using (FileStream second = File.OpenRead(curSecondFile))
-                {
-                    for (int i = 0; i < first.Length; i++)
-                    {
-                        if (first.ReadByte() != second.ReadByte())
-                            count++;
-                    }
-                }
-                
-                string str1 = File.ReadAllText(curFirstFile);
-                string str2 = File.ReadAllText(curSecondFile);
+                count += results.Count(r => r.Status == NetDiff.DiffStatus.Equal);
 
                 double percent;
                 if (str1.Length > str2.Length)
                 {
-                    percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
-                    string key = Path.GetFileName(str1) + Path.GetFileName(str2);
-                    percents.Add(key, percent);
+                    percent = count / str1.Length;
                 }
                 else
                 {
-                    percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-                    string key = Path.GetFileName(str1) + Path.GetFileName(str2);
-                    percents.Add(key, percent);
+                    percent = count / str2.Length;
                 }
+
+                var comparisonResult = new ComparisonResult(str1, str2, percent);
+                if (pathToSerialize == null) continue;
+                await using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
+                await JsonSerializer.SerializeAsync<ComparisonResult>(fs, comparisonResult);
+                Console.WriteLine("Data has been saved to file");
             }
         }
-
-        return percents;
     }
 
+    public Dictionary<string, double> CompareFilesByBites(string? firstPath, string? secondPath)
+        {
+            if (firstPath == null) throw new Exception("Your path are empty!");
+            if (secondPath == null) throw new Exception("Your path are empty!");
 
-    public void CompareFolders(string? pathA, string? pathB)
+            string[] allFirstPathFiles = Directory.GetFiles(firstPath);
+            string[] allSecondPathFiles = Directory.GetFiles(secondPath);
+        
+            int count = 0;
+
+            var percents = new Dictionary<string, double>();
+
+            foreach (string curFirstFile in allFirstPathFiles) 
+            {
+                foreach (string curSecondFile in allSecondPathFiles)
+                {
+                    using (FileStream first = File.OpenRead(curFirstFile))
+                    using (FileStream second = File.OpenRead(curSecondFile))
+                    {
+                        for (int i = 0; i < first.Length; i++)
+                        {
+                            if (first.ReadByte() != second.ReadByte())
+                                count++;
+                        }
+                    }
+                
+                    string str1 = File.ReadAllText(curFirstFile);
+                    string str2 = File.ReadAllText(curSecondFile);
+
+                    double percent;
+                    if (str1.Length > str2.Length)
+                    {
+                        percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
+                        string key = Path.GetFileName(str1) + Path.GetFileName(str2);
+                        percents.Add(key, percent);
+                    }
+                    else
+                    {
+                        percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
+                        string key = Path.GetFileName(str1) + Path.GetFileName(str2);
+                        percents.Add(key, percent);
+                    }
+                }
+            }
+
+            return percents;
+        }
+
+
+        public void CompareFolders(string? pathA, string? pathB)
         {
             if (pathA != null)
             {
@@ -146,5 +150,5 @@ public class ComparisonLogic
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
 
-    }
+        }
 }
