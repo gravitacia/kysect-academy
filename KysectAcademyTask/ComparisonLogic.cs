@@ -43,7 +43,7 @@ public class ComparisonLogic
         }
     }
 
-    public Dictionary<string, double> CompareFilesByBites(string? firstPath, string? secondPath)
+    public double CompareFilesByBites(string? firstPath, string? secondPath)
         {
             if (firstPath == null) throw new Exception("Your path are empty!");
             if (secondPath == null) throw new Exception("Your path are empty!");
@@ -52,8 +52,9 @@ public class ComparisonLogic
             string[] allSecondPathFiles = Directory.GetFiles(secondPath);
         
             int count = 0;
+            int equalsFiles = 0;
 
-            var percents = new Dictionary<string, double>();
+            var percents = new List<double>();
 
             foreach (string curFirstFile in allFirstPathFiles) 
             {
@@ -73,22 +74,32 @@ public class ComparisonLogic
                     string str2 = File.ReadAllText(curSecondFile);
 
                     double percent;
+                    
+                    // добавить avg для процентов по папкам
                     if (str1.Length > str2.Length)
                     {
                         percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
-                        string key = Path.GetFileName(str1) + Path.GetFileName(str2);
-                        percents.Add(key, percent);
+                        if (percent >= 0.3)
+                        {
+                            equalsFiles++;
+                            percents.Add(percent);
+                        }
                     }
                     else
                     {
                         percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-                        string key = Path.GetFileName(str1) + Path.GetFileName(str2);
-                        percents.Add(key, percent);
+                        if (percent > 0.3)
+                        {
+                            equalsFiles++;
+                            percents.Add(percent);
+                        }
                     }
                 }
             }
+            
+            
 
-            return percents;
+            return percents.Sum()/Convert.ToDouble(equalsFiles);
         }
 
 

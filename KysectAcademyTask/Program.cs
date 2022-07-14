@@ -4,4 +4,4 @@ var content = Deserializer.GetContent();
 var comparator = new Comparator();
 
 
-if (content != null) new ComparisonLogic().CompareFilesInOneFolder(content.RootPath, content.PathForResults, comparator);
+if (content != null) new ComparisonLogic().CompareFilesInOneFolder(content.RootPath, content.ResultFilter?.PathForResults, comparator);

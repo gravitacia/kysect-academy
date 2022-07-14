@@ -6,10 +6,10 @@ namespace KysectAcademyTask;
 public class Deserializer
 {
     public string? RootPath { get; set; }
-    public string? PathForResults { get; set; }
     public ResultFilter? ResultFilter { get; set; }
     public FileFilter? FileFilter { get; set; }
     public AuthorFilter? AuthorFilter{ get; set; }
+    
     public static Deserializer? GetContent()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
