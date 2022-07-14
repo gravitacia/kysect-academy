@@ -43,123 +43,82 @@ public class ComparisonLogic
         }
     }
 
-    public double CompareFilesByBites(string? firstPath, string? secondPath)
-        {
-            if (firstPath == null) throw new Exception("Your path are empty!");
-            if (secondPath == null) throw new Exception("Your path are empty!");
-
-            string[] allFirstPathFiles = Directory.GetFiles(firstPath);
-            string[] allSecondPathFiles = Directory.GetFiles(secondPath);
+    public double CompareFilesByBites(string? firstFile, string? secondFile)
+    {
+        int count = 0;
+        double percent = 0.0;
         
-            int count = 0;
-            int equalsFiles = 0;
-
-            var percents = new List<double>();
-
-            foreach (string curFirstFile in allFirstPathFiles) 
+        if (firstFile != null)
+        {
+            using FileStream first = File.OpenRead(firstFile);
+            if (secondFile != null)
             {
-                foreach (string curSecondFile in allSecondPathFiles)
+                using FileStream second = File.OpenRead(secondFile);
+                for (int i = 0; i < first.Length; i++)
                 {
-                    using (FileStream first = File.OpenRead(curFirstFile))
-                    using (FileStream second = File.OpenRead(curSecondFile))
-                    {
-                        for (int i = 0; i < first.Length; i++)
-                        {
-                            if (first.ReadByte() != second.ReadByte())
-                                count++;
-                        }
-                    }
+                    if (first.ReadByte() != second.ReadByte())
+                        count++;
+                }
                 
-                    string str1 = File.ReadAllText(curFirstFile);
-                    string str2 = File.ReadAllText(curSecondFile);
+                string str1 = File.ReadAllText(firstFile);
+                string str2 = File.ReadAllText(secondFile);
 
-                    double percent;
-                    
-                    // добавить avg для процентов по папкам
-                    if (str1.Length > str2.Length)
-                    {
-                        percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
-                        if (percent >= 0.3)
-                        {
-                            equalsFiles++;
-                            percents.Add(percent);
-                        }
-                    }
-                    else
-                    {
-                        percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-                        if (percent > 0.3)
-                        {
-                            equalsFiles++;
-                            percents.Add(percent);
-                        }
-                    }
+                if (str1.Length > str2.Length)
+                {
+                    percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
+
+                }
+                else
+                {
+                    percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
                 }
             }
-            
-            
-
-            return percents.Sum()/Convert.ToDouble(equalsFiles);
         }
 
+        return percent;
+    }
 
-        public void CompareFolders(string? pathA, string? pathB)
+
+    public double CompareFolders(string? firstPath, string? secondPath)
+    {
+        double percent = 0.0;
+        var percentsForFile = new List<double>();
+        var percents = new List<List<double>>();
+        var tmpList = new List<double>();
+        var tmpListForPercent = new List<List<double>>();
+        double finalPercent = 0.0;
+
+        if (firstPath == null) throw new Exception("Invalid path!");
+        if (secondPath == null) throw new Exception("Invalid path!");
+        
+        var dir2 = new DirectoryInfo(secondPath);
+        var dir1 = new DirectoryInfo(firstPath);
+                
+        IEnumerable<FileInfo> list1 = dir1.GetFiles("*.*", System.IO.SearchOption.AllDirectories);
+        IEnumerable<FileInfo> list2 = dir2.GetFiles("*.*", System.IO.SearchOption.AllDirectories);
+                
+
+        foreach (FileInfo curFirstFile in list1)
         {
-            if (pathA != null)
+            foreach (FileInfo curSecondFile in list2)
             {
-                var dir1 = new System.IO.DirectoryInfo(pathA);
-                if (pathB != null)
+                percent = CompareFilesByBites(curFirstFile.DirectoryName, curSecondFile.DirectoryName);
+                percentsForFile.Add(percent);
+                        
+                if (percent >= 0.3)
                 {
-                    var dir2 = new System.IO.DirectoryInfo(pathB);
-
-                
-                    IEnumerable<System.IO.FileInfo> list1 = dir1.GetFiles("*.*", System.IO.SearchOption.AllDirectories);
-                    IEnumerable<System.IO.FileInfo> list2 = dir2.GetFiles("*.*", System.IO.SearchOption.AllDirectories);
-
-                    
-                    var myFileCompare = new FileCompare();
-
-                    
-                    bool areIdentical = list1.SequenceEqual(list2, myFileCompare);
-                    
-                    if (areIdentical == true)
-                    {
-                        Console.WriteLine("the two folders are the same");
-                    }
-                    else
-                    {
-                        Console.WriteLine("The two folders are not the same");
-                    }
-                
-                    IEnumerable<FileInfo> queryCommonFiles = list1.Intersect(list2, myFileCompare);
-
-                    
-                    if (queryCommonFiles.Any())
-                    {
-                        Console.WriteLine("The following files are in both folders:");
-                        foreach (FileInfo v in queryCommonFiles)
-                        {
-                            Console.WriteLine(v.FullName); //shows which items end up in result list  
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("There are no common files in the two folders.");
-                    }
-                
-                    IEnumerable<FileInfo> queryList1Only = (from file in list1
-                        select file).Except(list2, myFileCompare);
-
-                    Console.WriteLine("The following files are in list1 but not list2:");
-                    foreach (FileInfo v in queryList1Only)
-                    {
-                        Console.WriteLine(v.FullName);
-                    }
+                    tmpList.Add(percent);
                 }
             }
-        
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
-
+            percents.Add(percentsForFile);
+            tmpListForPercent.Add(tmpList);
         }
+
+        finalPercent += tmpListForPercent.Sum(curPercent => curPercent.Sum());
+
+        finalPercent = percents.Aggregate(finalPercent, (current, curPercent) => current / curPercent.Sum());
+
+        return finalPercent;
+    }
 }
+
