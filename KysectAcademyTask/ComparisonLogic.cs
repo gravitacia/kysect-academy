@@ -5,7 +5,7 @@ namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    public async void GetResults(string? path, string? pathToSerialize, Comparator comparator)
+    public void GetResults(string? path, string? pathToSerialize, Comparator comparator)
     {
         if (path == null) throw new Exception("Your path are empty!");
         string[] allFiles = Directory.GetFiles(path);
@@ -36,8 +36,8 @@ public class ComparisonLogic
 
                 var comparisonResult = new ComparisonResult(str1, str2, percent);
                 if (pathToSerialize == null) continue;
-                await using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
-                await JsonSerializer.SerializeAsync<ComparisonResult>(fs, comparisonResult);
+                using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
+                JsonSerializer.SerializeAsync<ComparisonResult>(fs, comparisonResult);
                 Console.WriteLine("Data has been saved to file");
             }
         }
