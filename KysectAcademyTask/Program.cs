@@ -1,6 +1,6 @@
 ﻿using KysectAcademyTask;
 
-var content = Deserializer.GetContent();
+var content = Configuration.LoadContent();
 var comparator = new Comparator();
 
 

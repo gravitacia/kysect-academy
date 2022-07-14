@@ -2,18 +2,18 @@
 
 namespace KysectAcademyTask;
 
-public class Deserializer
+public class Configuration
 {
     public string? RootPath { get; set; }
     public string? PathForResults { get; set; }
-    public static Deserializer? GetContent()
+    public static Configuration? LoadContent()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json").Build();
         
-        IConfigurationSection section = config.GetSection(nameof(Deserializer));
-        Deserializer? rootPath = section.Get<Deserializer>();
+        IConfigurationSection section = config.GetSection(nameof(Configuration));
+        Configuration? rootPath = section.Get<Configuration>();
         return rootPath;
     }
 
