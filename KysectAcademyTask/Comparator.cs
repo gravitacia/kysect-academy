@@ -4,6 +4,12 @@ namespace KysectAcademyTask;
 
 public class Comparator
 {
+
+    public Comparator()
+    {
+        
+    }
+    
     public IEnumerable<DiffResult<char>> EntitiesCompare(string firstFile, string secondFile)
     {
         return DiffUtil.Diff(firstFile, secondFile);

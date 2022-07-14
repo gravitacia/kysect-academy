@@ -5,7 +5,7 @@ namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    public async void GetResults(string? path, string? pathToSerialize)
+    public async void GetResults(string? path, string? pathToSerialize, Comparator comparator)
     {
         if (path == null) throw new Exception("Your path are empty!");
         string[] allFiles = Directory.GetFiles(path);
@@ -20,7 +20,7 @@ public class ComparisonLogic
                 string str1 = File.ReadAllText(allFiles[i]);
                 string str2 = File.ReadAllText(allFiles[j]);
 
-                IEnumerable<DiffResult<char>> results = new Comparator().EntitiesCompare(str1, str2);
+                IEnumerable<DiffResult<char>> results = comparator.EntitiesCompare(str1, str2);
 
                 count += results.Count(r => r.Status == NetDiff.DiffStatus.Equal);
 
