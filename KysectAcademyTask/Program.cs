@@ -1,8 +1,7 @@
 ﻿using KysectAcademyTask;
 
-string? rootPath = Deserializer.GetRootPath();
-string? pathToSerialize = Deserializer.GetResultsPath();
+var content = Deserializer.GetContent();
 var comparator = new Comparator();
 
 
-new ComparisonLogic().GetResults(rootPath, pathToSerialize, comparator);
+if (content != null) new ComparisonLogic().GetResults(content.RootPath, content.PathForResults, comparator);
