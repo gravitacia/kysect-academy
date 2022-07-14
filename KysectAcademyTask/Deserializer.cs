@@ -5,6 +5,12 @@ namespace KysectAcademyTask;
 
 public class Deserializer
 {
+
+    public Deserializer()
+    {
+        GetContent();
+    }
+    
     public string? RootPath { get; set; }
     public ResultFilter? ResultFilter { get; set; }
     public FileFilter? FileFilter { get; set; }

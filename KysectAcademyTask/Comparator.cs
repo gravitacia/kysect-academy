@@ -1,11 +1,16 @@
-﻿using NetDiff;
-
-namespace KysectAcademyTask;
+﻿namespace KysectAcademyTask;
 
 public class Comparator
 {
-    public IEnumerable<DiffResult<char>> EntitiesCompare(string firstFile, string secondFile)
+    public Comparator()
     {
-        return DiffUtil.Diff(firstFile, secondFile);
+        
+    }
+    
+    private Deserializer deserializer = new Deserializer();
+
+    public void CompareAlgorithm()
+    {
+        
     }
 }
