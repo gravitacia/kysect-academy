@@ -2,10 +2,6 @@
 
 public class AuthorFilter
 {
-    public AuthorFilter()
-    {
-    }
-    
     public List<string>? AuthorsBlackList { get; set; }
     public List<string>? AuthorsWhiteList { get; set; }
 }

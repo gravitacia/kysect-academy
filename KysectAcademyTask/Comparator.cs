@@ -2,12 +2,7 @@
 
 public class Comparator
 {
-    public Comparator()
-    {
-        
-    }
-    
-    private Deserializer deserializer = new Deserializer();
+    private Configuration _configuration = new Configuration();
 
     public void CompareAlgorithm()
     {

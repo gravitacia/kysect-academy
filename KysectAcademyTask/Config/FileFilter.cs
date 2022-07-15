@@ -2,10 +2,6 @@
 
 public class FileFilter
 {
-    public FileFilter()
-    {
-    }
-    
     public List<string>? ExtensionsBlackList { get; set; }
     public List<string>? ExtensionsWhiteList { get; set; }
     public List<string>? DirectoriesBlackList { get; set; }
