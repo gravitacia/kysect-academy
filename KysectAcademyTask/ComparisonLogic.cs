@@ -1,12 +1,13 @@
-﻿using System.Text.Json;
-using NetDiff;
+﻿using NetDiff;
 
 namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    public void GetResults(string? path, string? pathToSerialize, Comparator comparator)
+    public List<ComparisonResult> CompareFiles(string? path, Comparator comparator)
     {
+
+        var comparisonsList = new List<ComparisonResult>();
         if (path != null)
         {
             string[] allFiles = Directory.GetFiles(path);
@@ -23,7 +24,7 @@ public class ComparisonLogic
 
                     IEnumerable<DiffResult<char>> results = comparator.EntitiesCompare(str1, str2);
 
-                    count += results.Count(r => r.Status == NetDiff.DiffStatus.Equal);
+                    count += results.Count(r => r.Status == DiffStatus.Equal);
 
                     double percent;
                     if (str1.Length > str2.Length)
@@ -36,12 +37,15 @@ public class ComparisonLogic
                     }
 
                     var comparisonResult = new ComparisonResult(str1, str2, percent);
-                    if (pathToSerialize == null) continue;
-                    using var fs = new FileStream(pathToSerialize, FileMode.OpenOrCreate);
-                    JsonSerializer.SerializeAsync<ComparisonResult>(fs, comparisonResult);
-                    Console.WriteLine("Data has been saved to file");
+                    comparisonsList.Add(comparisonResult);
                 }
             }
         }
+        else
+        {
+            throw new Exception("Your path is empty!");
+        }
+        
+        return comparisonsList;
     }
 }
