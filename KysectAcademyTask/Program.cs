@@ -1,2 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using KysectAcademyTask;
+
+var content = Configuration.LoadContent();
+var comparator = new Comparator();
+
+
+if (content != null)
+    new Output().OutputResult(content.RootPath, content.PathForResults, comparator);
