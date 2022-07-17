@@ -81,41 +81,25 @@ public class ComparisonLogic
         return finalPercent;
     }
 
-    public double CompareFolders(string path)
+    public List<List<double>> CompareFolders(string path)
     {
 
         var percentsForFile = new List<double>();
         var percents = new List<List<double>>();
-        var tmpList = new List<double>();
-        var tmpListForPercent = new List<List<double>>();
-        double finalPercent = 0.0;
         var dir = new DirectoryInfo(path);
         IEnumerable<FileInfo> list1 = dir.GetFiles("*.*", SearchOption.AllDirectories);
         IEnumerable<FileInfo> list2 = dir.GetFiles("*.*", SearchOption.AllDirectories);
         
         foreach (FileInfo curFirstFile in list1)
         {
-            foreach (FileInfo curSecondFile in list2)
-            {
-                double percent = CompareFilesByBites(curFirstFile.DirectoryName, curSecondFile.DirectoryName);
-                percentsForFile.Add(percent);
-
-                if (percent != 1.0)
-                {
-                    tmpList.Add(percent);
-                }
-            }
+            percentsForFile.AddRange(list2.Select(curSecondFile => 
+                    CompareFilesByBites(curFirstFile.DirectoryName, curSecondFile.DirectoryName))
+                .Where(percent => percent != 1.0));
 
             percents.Add(percentsForFile);
-            tmpListForPercent.Add(tmpList);
         }
 
-        
-        finalPercent += tmpListForPercent.Sum(curPercent => curPercent.Sum());
-
-        finalPercent = percents.Aggregate(finalPercent, (current, curPercent) => current / curPercent.Sum());
-
-        return finalPercent;
+        return percents;
     }
 }
 
