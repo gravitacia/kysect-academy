@@ -2,7 +2,7 @@
 
 public class Output
 {
-    public void OutputResult(string? firstPath, string? secondPath)
+    public void OutputResult(string firstPath, string secondPath)
     {
         double compareResult = new ComparisonLogic().CompareFolders(firstPath, secondPath);
         
