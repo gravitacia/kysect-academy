@@ -2,49 +2,21 @@
 
 public class ConfigFilter
 {
-    public bool IsFileAllowed(Configuration configuration, FileInfo firstFile, FileInfo secondFile)
+    private Configuration _configuration = new Configuration();
+    
+    public IEnumerable<FileInfo> GetFinalList(IEnumerable<FileInfo> list)
     {
-        return Convert.ToString(configuration.FileFilter?.ExtensionsWhiteList) ==
-               firstFile.Extension
-               && Convert.ToString(configuration.FileFilter?.ExtensionsWhiteList) ==
-               secondFile.Extension;
-    }
-
-    public bool IsFileBanned(Configuration configuration, FileInfo firstFile, FileInfo secondFile)
-    {
-        return Convert.ToString(configuration.FileFilter?.ExtensionsBlackList) ==
-               firstFile.Extension
-               || Convert.ToString(configuration.FileFilter?.ExtensionsBlackList) ==
-               secondFile.Extension;
-    }
-
-    public bool IsDirectoryCorrect(Configuration configuration, DirectoryInfo? firstDir, DirectoryInfo? secondDir)
-    {
-        return secondDir != null && firstDir != null && (firstDir.GetDirectories()
-                                                             .Contains<>(Convert.ToString(configuration.FileFilter
-                                                                 ?.DirectoriesBlackList))
-                                                         || !secondDir.GetDirectories()
-                                                             .Contains<>(Convert.ToString(configuration.FileFilter
-                                                                 ?.DirectoriesBlackList)));
-    }
-
-    public bool IsAuthorAllowed(Configuration configuration, DirectoryInfo? firstDir, DirectoryInfo? secondDir)
-    {
-        return firstDir != null && secondDir != null && (secondDir.GetDirectories()
-                                                             .Contains<>(Convert.ToString(configuration.AuthorFilter
-                                                                 ?.AuthorsWhiteList))
-                                                         && firstDir.GetDirectories()
-                                                             .Contains<>(Convert.ToString(configuration.AuthorFilter
-                                                                 ?.AuthorsWhiteList)));
-    }
-
-    public bool IsAuthorBanned(Configuration configuration, DirectoryInfo? firstDir, DirectoryInfo? secondDir)
-    {
-        return firstDir != null && secondDir != null && (secondDir.GetDirectories()
-                                                             .Contains<>(Convert.ToString(configuration.AuthorFilter
-                                                                 ?.AuthorsBlackList))
-                                                         || firstDir.GetDirectories()
-                                                             .Contains<>(Convert.ToString(configuration.AuthorFilter
-                                                                 ?.AuthorsBlackList)));
+        return list.Where(f =>
+                (bool)_configuration.FileFilter?.ExtensionsWhiteList!
+                    .Any(x => f.Name.EndsWith(x)))
+            .Except(list.Where(dir => dir.DirectoryName != null &&
+                                      (bool)_configuration.FileFilter?.ExtensionsBlackList!
+                                          .Any(x => dir.DirectoryName.Contains(x))))
+            .Intersect(list.Where(author => author.DirectoryName != null 
+                                            && (bool)_configuration.AuthorFilter?.AuthorsWhiteList!
+                                                .Any(x => author.DirectoryName.Contains(x))))
+            .Except(list.Where(author => author.DirectoryName != null 
+                                         && (bool)_configuration.AuthorFilter?.AuthorsBlackList!
+                                             .Any(x => author.DirectoryName.Contains(x))));
     }
 }
