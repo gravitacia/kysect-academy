@@ -2,7 +2,7 @@
 
 public class ComparisonLogic
 {
-    public double CompareFilesByBites(string? firstFile, string? secondFile)
+    private double CompareFilesByBites(string? firstFile, string? secondFile)
     {
         int count = 0;
         double percent = 0.0;
@@ -45,6 +45,7 @@ public class ComparisonLogic
         var tmpList = new List<double>();
         var tmpListForPercent = new List<List<double>>();
         double finalPercent = 0.0;
+        int iterations = 0;
 
         foreach (FileInfo curFirstFile in firstList)
         {
@@ -57,6 +58,11 @@ public class ComparisonLogic
                 {
                     tmpList.Add(percent);
                 }
+
+                iterations++;
+                
+                Console.WriteLine($"Comparing {curFirstFile.Name} and {curSecondFile.Name}.");
+                Console.WriteLine($"{iterations} in {secondList.Count()+firstList.Count()}");
             }
 
             percents.Add(percentsForFile);
@@ -70,7 +76,7 @@ public class ComparisonLogic
         return finalPercent;
     }
 
-    public List<List<double>> CompareFileInOneFolder(IEnumerable<FileInfo> list)
+    public List<List<double>> CompareFilesInOneFolder(IEnumerable<FileInfo> list)
     {
         var percentsForFile = new List<double>();
         var percents = new List<List<double>>();

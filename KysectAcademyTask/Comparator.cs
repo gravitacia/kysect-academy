@@ -33,7 +33,7 @@ public class Comparator
         IEnumerable<FileInfo> list = dir.GetFiles("*.*", SearchOption.AllDirectories);
         IEnumerable<FileInfo> finalList = new ConfigFilter().GetFinalList(list);
 
-        List<List<double>> result = new ComparisonLogic().CompareFileInOneFolder(finalList);
+        List<List<double>> result = new ComparisonLogic().CompareFilesInOneFolder(finalList);
         
         return result;
     }
