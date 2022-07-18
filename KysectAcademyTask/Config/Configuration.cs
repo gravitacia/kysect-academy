@@ -10,7 +10,7 @@ public class Configuration
         LoadContent();
     }
     
-    public string? RootPath { get; set; }
+    public List<string>? RootPath { get; set; }
     public ResultFilter? ResultFilter { get; set; }
     public FileFilter? FileFilter { get; set; }
     public AuthorFilter? AuthorFilter{ get; set; }
