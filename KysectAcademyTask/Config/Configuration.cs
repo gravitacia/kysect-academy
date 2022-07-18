@@ -1,7 +1,6 @@
-﻿using KysectAcademyTask.Config;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace KysectAcademyTask;
+namespace KysectAcademyTask.Config;
 
 public class Configuration
 {
@@ -15,6 +14,7 @@ public class Configuration
     public ResultFilter? ResultFilter { get; set; }
     public FileFilter? FileFilter { get; set; }
     public AuthorFilter? AuthorFilter{ get; set; }
+    public SubmissionFilter? SubmissionFilter { get; set; }
     
     public static Configuration? LoadContent()
     {

@@ -17,6 +17,12 @@ public class ConfigFilter
                                                 .Any(x => author.DirectoryName.Contains(x))))
             .Except(list.Where(author => author.DirectoryName != null 
                                          && (bool)_configuration.AuthorFilter?.AuthorsBlackList!
-                                             .Any(x => author.DirectoryName.Contains(x))));
+                                             .Any(x => author.DirectoryName.Contains(x))))
+            .Intersect(list.Where(dir => dir.DirectoryName != null &&
+                                         (bool)_configuration.SubmissionFilter?.SubmissionDate!
+                                             .Any(x => dir.DirectoryName.Contains(x)))
+                .Intersect(list.Where(dir => dir.DirectoryName != null &&
+                                             (bool)_configuration.SubmissionFilter?.HomeworkName!
+                                                 .Any(x => dir.DirectoryName.Contains(x)))));
     }
 }
