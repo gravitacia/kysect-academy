@@ -2,7 +2,7 @@
 
 public class ComparisonLogic
 {
-    private double CompareFilesByBites(string? firstFile, string? secondFile)
+    public double CompareFilesByBites(string? firstFile, string? secondFile)
     {
         int count = 0;
         double percent = 0.0;

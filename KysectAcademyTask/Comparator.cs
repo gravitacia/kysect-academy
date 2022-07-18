@@ -15,41 +15,39 @@ public class Comparator
         var firstDir = new DirectoryInfo(secondPath);
         var secondDir = new DirectoryInfo(firstPath);
 
-        IEnumerable<FileInfo> firstList = secondDir.GetFiles("*.*", SearchOption.AllDirectories);
-        IEnumerable<FileInfo> secondList = firstDir.GetFiles("*.*", SearchOption.AllDirectories);
+        IEnumerable<FileInfo> firstList = firstDir.GetFiles("*.*", SearchOption.AllDirectories);
+        IEnumerable<FileInfo> secondList = secondDir.GetFiles("*.*", SearchOption.AllDirectories);
         double result = 0.0;
 
+        result = new ComparisonLogic().CompareFolders(firstList, secondList);
 
 
-
-
-
-        foreach (FileInfo curFirstFile in firstList)
-        {
-            foreach (FileInfo curSecondFile in secondList)
-            {
-                if (_configuration.AuthorFilter?.AuthorsWhiteList?.Count != 0)
-                {
-                    if (_filter.IsAuthorAllowed(_configuration, firstDir, secondDir))
-                    {
-                        if (_configuration.FileFilter?.DirectoriesBlackList?.Count != 0)
-                        {
-                            if (_filter.IsDirectoryCorrect(_configuration, secondDir, firstDir))
-                            {
-                                if (_configuration.FileFilter?.ExtensionsWhiteList?.Count != 0)
-                                {
-                                    if (_filter.IsFileAllowed(_configuration, curFirstFile, curSecondFile))
-                                    {
-                                        result = new ComparisonLogic().CompareFolders(firstList, secondList);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        IEnumerable<FileInfo> finalFirstList = firstList.Where(f =>
+                (bool)_configuration.FileFilter?.ExtensionsWhiteList!
+                    .Any(x => f.Name.EndsWith(x)))
+            .Except(firstList.Where(dir => dir.DirectoryName != null &&
+                                         (bool)_configuration.FileFilter?.ExtensionsBlackList!
+                                             .Any(x => dir.DirectoryName.Contains(x))))
+            .Intersect(firstList.Where(author => author.DirectoryName != null 
+                                                 && (bool)_configuration.AuthorFilter?.AuthorsWhiteList!
+                                                     .Any(x => author.DirectoryName.Contains(x))))
+            .Except(firstList.Where(author => author.DirectoryName != null 
+                                              && (bool)_configuration.AuthorFilter?.AuthorsBlackList!
+                                                  .Any(x => author.DirectoryName.Contains(x))));
         
+        IEnumerable<FileInfo> finalSecondList = secondList.Where(f =>
+                (bool)_configuration.FileFilter?.ExtensionsWhiteList!
+                    .Any(x => f.Name.EndsWith(x)))
+            .Except(secondList.Where(dir => dir.DirectoryName != null &&
+                                           (bool)_configuration.FileFilter?.ExtensionsBlackList!
+                                               .Any(x => dir.DirectoryName.Contains(x))))
+            .Intersect(secondList.Where(author => author.DirectoryName != null 
+                                                  && (bool)_configuration.AuthorFilter?.AuthorsWhiteList!
+                                                      .Any(x => author.DirectoryName.Contains(x))))
+            .Except(secondList.Where(author => author.DirectoryName != null 
+                                               && (bool)_configuration.AuthorFilter?.AuthorsBlackList!
+                                                   .Any(x => author.DirectoryName.Contains(x))));
+
         return result;
     }
 }
