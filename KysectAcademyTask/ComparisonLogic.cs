@@ -70,7 +70,7 @@ public class ComparisonLogic
         return finalPercent;
     }
 
-    public List<List<double>> CompareFolders(string path)
+    public List<List<double>> CompareFileInOneFolder(string path)
     {
         var percentsForFile = new List<double>();
         var percents = new List<List<double>>();
