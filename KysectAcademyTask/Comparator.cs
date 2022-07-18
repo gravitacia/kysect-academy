@@ -5,6 +5,7 @@ namespace KysectAcademyTask;
 public class Comparator
 {
     public double CompareAlgorithm(string firstPath, string secondPath)
+
     {
         if (firstPath == null) throw new Exception("Invalid path!");
         if (secondPath == null) throw new Exception("Invalid path!");
