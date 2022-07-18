@@ -9,8 +9,8 @@ public class Comparator
         if (firstPath == null) throw new Exception("Invalid path!");
         if (secondPath == null) throw new Exception("Invalid path!");
 
-        var firstDir = new DirectoryInfo(secondPath);
-        var secondDir = new DirectoryInfo(firstPath);
+        var firstDir = new DirectoryInfo(firstPath);
+        var secondDir = new DirectoryInfo(secondPath);
 
         IEnumerable<FileInfo> firstList = firstDir.GetFiles("*.*", SearchOption.AllDirectories);
         IEnumerable<FileInfo> secondList = secondDir.GetFiles("*.*", SearchOption.AllDirectories);
@@ -21,8 +21,20 @@ public class Comparator
         
         
         double result = new ComparisonLogic().CompareFolders(finalFirstList, finalSecondList);
-        
 
+        return result;
+    }
+
+    public List<List<double>> CompareAlgorithm(string path)
+    {
+        if (path == null) throw new Exception("Invalid path!");
+
+        var dir = new DirectoryInfo(path);
+        IEnumerable<FileInfo> list = dir.GetFiles("*.*", SearchOption.AllDirectories);
+        IEnumerable<FileInfo> finalList = new ConfigFilter().GetFinalList(list);
+
+        List<List<double>> result = new ComparisonLogic().CompareFileInOneFolder(finalList);
+        
         return result;
     }
 }
