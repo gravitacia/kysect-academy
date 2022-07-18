@@ -5,6 +5,7 @@ namespace KysectAcademyTask;
 
 public class Output
 {
+
     private Configuration _configuration = new Configuration();
 
     public void OutputResult()

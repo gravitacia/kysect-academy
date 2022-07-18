@@ -1,3 +1,4 @@
+
 ﻿namespace KysectAcademyTask;
 
 public class ComparisonLogic
@@ -74,6 +75,7 @@ public class ComparisonLogic
         finalPercent = percents.Aggregate(finalPercent, (current, curPercent) => current / curPercent.Sum());
 
         return finalPercent;
+
     }
 
     public List<List<double>> CompareFilesInOneFolder(IEnumerable<FileInfo> list)
