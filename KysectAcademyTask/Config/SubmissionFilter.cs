@@ -2,6 +2,6 @@
 
 public class SubmissionFilter
 {
-    public List<string>? HomeworkName { get; set; }
-    public List<string>? SubmissionDate { get; set; }
+    public List<string> HomeworkName { get; set; } = null!;
+    public List<string> SubmissionDate { get; set; } = null!;
 }

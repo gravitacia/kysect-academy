@@ -2,6 +2,6 @@
 
 public class ResultFilter
 {
-    public string? PathForResults { get; set; }
-    public string? FileType { get; set; }
+    public string PathForResults { get; set; } = null!;
+    public string FileType { get; set; } = null!;
 }

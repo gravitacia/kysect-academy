@@ -10,11 +10,11 @@ public class Configuration
         LoadContent();
     }
     
-    public List<string>? RootPath { get; set; }
-    public ResultFilter? ResultFilter { get; set; }
-    public FileFilter? FileFilter { get; set; }
-    public AuthorFilter? AuthorFilter{ get; set; }
-    public SubmissionFilter? SubmissionFilter { get; set; }
+    public List<string> RootPath { get; set; } = null!;
+    public ResultFilter ResultFilter { get; set; } = null!;
+    public FileFilter FileFilter { get; set; } = null!;
+    public AuthorFilter AuthorFilter{ get; set; } = null!;
+    public SubmissionFilter SubmissionFilter { get; set; } = null!;
     
     public static Configuration? LoadContent()
     {

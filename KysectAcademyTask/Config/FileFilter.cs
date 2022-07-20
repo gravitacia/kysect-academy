@@ -2,7 +2,7 @@
 
 public class FileFilter
 {
-    public List<string>? ExtensionsBlackList { get; set; }
-    public List<string>? ExtensionsWhiteList { get; set; } 
-    public List<string>? DirectoriesBlackList { get; set; }
+    public List<string> ExtensionsBlackList { get; set; } = null!;
+    public List<string> ExtensionsWhiteList { get; set; } = null!;
+    public List<string> DirectoriesBlackList { get; set; } = null!;
 }
