@@ -18,11 +18,8 @@ public class ComparisonLogic
             {
                 double percent = CompareFilesByBites(curFirstFile.DirectoryName, curSecondFile.DirectoryName);
                 percentsForFile.Add(percent);
-
-                if (percent >= 0.3)
-                {
-                    tmpList.Add(percent);
-                }
+                tmpList.Add(percent);
+                
 
                 iterations++;
                 
@@ -63,32 +60,29 @@ public class ComparisonLogic
     {
         int count = 0;
         double percent = 0.0;
-
-        if (firstFile != null)
+        
+        if (firstFile is null) return percent; 
+        if (secondFile is null) return percent;
+        
+        using FileStream first = File.OpenRead(firstFile);
+        using FileStream second = File.OpenRead(secondFile);
+        for (int i = 0; i < first.Length; i++)
         {
-            using FileStream first = File.OpenRead(firstFile);
-            if (secondFile != null)
-            {
-                using FileStream second = File.OpenRead(secondFile);
-                for (int i = 0; i < first.Length; i++)
-                {
-                    if (first.ReadByte() != second.ReadByte())
-                        count++;
-                }
+            if (first.ReadByte() != second.ReadByte())
+                count++;
+        }
 
-                string str1 = File.ReadAllText(firstFile);
-                string str2 = File.ReadAllText(secondFile);
+        string str1 = File.ReadAllText(firstFile);
+        string str2 = File.ReadAllText(secondFile);
 
-                if (str1.Length > str2.Length)
-                {
-                    percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
+        if (str1.Length > str2.Length)
+        {
+            percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
 
-                }
-                else
-                {
-                    percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-                }
-            }
+        }
+        else
+        {
+            percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
         }
 
         return percent;

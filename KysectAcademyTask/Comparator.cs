@@ -7,8 +7,8 @@ public class Comparator
     public double CompareAlgorithm(string firstPath, string secondPath)
 
     {
-        if (firstPath == null) throw new Exception("Invalid path!");
-        if (secondPath == null) throw new Exception("Invalid path!");
+        if (firstPath is null) throw new ArgumentNullException();
+        if (secondPath is null) throw new ArgumentNullException();
 
         var firstDir = new DirectoryInfo(firstPath);
         var secondDir = new DirectoryInfo(secondPath);
@@ -28,7 +28,7 @@ public class Comparator
 
     public List<List<double>> CompareAlgorithm(string path)
     {
-        if (path == null) throw new Exception("Invalid path!");
+        if (path is null) throw new ArgumentNullException();
 
         var dir = new DirectoryInfo(path);
         IEnumerable<FileInfo> list = dir.GetFiles("*.*", SearchOption.AllDirectories);
