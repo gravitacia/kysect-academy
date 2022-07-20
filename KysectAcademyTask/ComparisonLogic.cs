@@ -1,44 +1,8 @@
-
-﻿namespace KysectAcademyTask;
+﻿
+namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    private double CompareFilesByBites(string? firstFile, string? secondFile)
-    {
-        int count = 0;
-        double percent = 0.0;
-
-        if (firstFile != null)
-        {
-            using FileStream first = File.OpenRead(firstFile);
-            if (secondFile != null)
-            {
-                using FileStream second = File.OpenRead(secondFile);
-                for (int i = 0; i < first.Length; i++)
-                {
-                    if (first.ReadByte() != second.ReadByte())
-                        count++;
-                }
-
-                string str1 = File.ReadAllText(firstFile);
-                string str2 = File.ReadAllText(secondFile);
-
-                if (str1.Length > str2.Length)
-                {
-                    percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
-
-                }
-                else
-                {
-                    percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
-                }
-            }
-        }
-
-        return percent;
-    }
-
-
     public double CompareFolders(IEnumerable<FileInfo> firstList, IEnumerable<FileInfo> secondList)
     {
         var percentsForFile = new List<double>();
@@ -93,6 +57,41 @@ public class ComparisonLogic
         }
 
         return percents;
+    }
+    
+    private double CompareFilesByBites(string? firstFile, string? secondFile)
+    {
+        int count = 0;
+        double percent = 0.0;
+
+        if (firstFile != null)
+        {
+            using FileStream first = File.OpenRead(firstFile);
+            if (secondFile != null)
+            {
+                using FileStream second = File.OpenRead(secondFile);
+                for (int i = 0; i < first.Length; i++)
+                {
+                    if (first.ReadByte() != second.ReadByte())
+                        count++;
+                }
+
+                string str1 = File.ReadAllText(firstFile);
+                string str2 = File.ReadAllText(secondFile);
+
+                if (str1.Length > str2.Length)
+                {
+                    percent = Convert.ToDouble(count) / Convert.ToDouble(str1.Length);
+
+                }
+                else
+                {
+                    percent = Convert.ToDouble(count) / Convert.ToDouble(str2.Length);
+                }
+            }
+        }
+
+        return percent;
     }
 }
 
