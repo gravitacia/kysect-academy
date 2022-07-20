@@ -1,14 +1,22 @@
 ﻿using KysectAcademyTask.Config;
 
-namespace KysectAcademyTask;
+namespace KysectAcademyTask.Output;
 
-public abstract class Output
+public class Output : IOutput
 {
-    public Output(Configuration configuration)
-    {
-        this.configuration = configuration;
-    }
-    
-    public Configuration configuration { get; set; }
-    abstract public void OutputResults();
+   public void OutputResults(Configuration configuration)
+   {
+      switch (configuration.ResultFilter.FileType.ToUpper())
+      {
+         case "CONSOLE":
+            new OutputInConsole().OutputResults(configuration);
+            break;
+         case "JSON":
+            new OutputInJson().OutputResults(configuration);
+            break;
+         case "TXT":
+            new OutputInTxt().OutputResults(configuration);
+            break;
+      }
+   }
 }

@@ -1,4 +1,4 @@
-﻿using KysectAcademyTask;
+﻿using KysectAcademyTask.Config;
+using KysectAcademyTask.Output;
 
-
-new Output().OutputResult();
+new Output().OutputResults(new Configuration());
