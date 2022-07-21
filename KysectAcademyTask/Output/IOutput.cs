@@ -4,5 +4,5 @@ namespace KysectAcademyTask;
 
 public interface IOutput
 {
-    public void OutputResults(Configuration configuration);
+    public void OutputResults(Configuration configuration, double compareResult);
 }
