@@ -1,21 +1,19 @@
-﻿using KysectAcademyTask.Config;
+﻿namespace KysectAcademyTask.Output;
 
-namespace KysectAcademyTask.Output;
-
-public class Output : IOutput
+public class Output
 {
-   public void OutputResults(Configuration configuration, double compareResult)
+   public void OutputResults(string fileType, string resultPath, ComparisonResult comparisonResult)
    {
-      switch (configuration.ResultFilter.FileType.ToUpper())
+      switch (fileType.ToUpper())
       {
          case "CONSOLE":
-            new OutputInConsole().OutputResults(configuration, compareResult);
+            new OutputInConsole().OutputResults(comparisonResult);
             break;
          case "JSON":
-            new OutputInJson().OutputResults(configuration, compareResult);
+            new OutputInJson().OutputResults(comparisonResult, resultPath);
             break;
          case "TXT":
-            new OutputInTxt().OutputResults(configuration, compareResult);
+            new OutputInTxt().OutputResults(comparisonResult, resultPath);
             break;
       }
    }

@@ -1,15 +1,11 @@
 using System.Text.Json;
-using KysectAcademyTask.Config;
-
 namespace KysectAcademyTask;
 
-public class OutputInJson : IOutput
+public class OutputInJson
 {
-    public void OutputResults(Configuration configuration, double compareResult)
+    public void OutputResults(ComparisonResult comparisonResult, string resultPath)
     {
-        if (configuration.ResultFilter.PathForResults.Length == 0) return;
-        using var fs = new FileStream(configuration.ResultFilter.PathForResults, FileMode.OpenOrCreate);
-        var result = new ComparisonResult(configuration.RootPath[0], configuration.RootPath[1], compareResult);
-        JsonSerializer.SerializeAsync<ComparisonResult>(fs, result);
+        using var fs = new FileStream(resultPath, FileMode.OpenOrCreate);
+        JsonSerializer.SerializeAsync<ComparisonResult>(fs, comparisonResult);
     }
 }

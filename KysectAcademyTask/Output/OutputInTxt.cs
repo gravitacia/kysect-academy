@@ -1,14 +1,11 @@
-using KysectAcademyTask.Config;
-
 namespace KysectAcademyTask;
 
-public class OutputInTxt : IOutput
+public class OutputInTxt 
 {
-    public void OutputResults(Configuration configuration, double compareResult)
+    public void OutputResults(ComparisonResult comparisonResult, string resultPath)
     {
-        if (configuration.ResultFilter.PathForResults.Length == 0) return;
-        var sw = new StreamWriter(configuration.ResultFilter.PathForResults!);
-        sw.WriteLine(configuration.RootPath[0] + configuration.RootPath[1] + compareResult);
+        var sw = new StreamWriter(resultPath);
+        sw.WriteLine(comparisonResult.Path1 + comparisonResult.Path2 + comparisonResult.Percent);
         sw.Close();
     }
 }

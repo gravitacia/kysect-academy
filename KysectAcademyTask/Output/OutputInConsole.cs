@@ -1,15 +1,12 @@
-using KysectAcademyTask.Config;
-
 namespace KysectAcademyTask;
 
-public class OutputInConsole : IOutput
+public class OutputInConsole
 {
-    public void OutputResults(Configuration configuration, double compareResult)
+    public void OutputResults(ComparisonResult comparisonResult)
     {
-        if (configuration.ResultFilter.PathForResults.Length == 0) return;
-        Console.WriteLine($"First path: {configuration.RootPath[0]}, " +
-                          $"Second path: {configuration.RootPath[1]}," +
-                          $" Percent: {compareResult} ");
+        Console.WriteLine($"First path: {comparisonResult.Path1}, " +
+                          $"Second path: {comparisonResult.Path2}," +
+                          $" Percent: {comparisonResult.Percent} ");
 
     }
 }
