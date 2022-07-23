@@ -4,7 +4,7 @@ namespace KysectAcademyTask;
 
 public class ComparisonLogic
 {
-    public List<ComparisonResult> CompareFiles(string? path, Comparator comparator)
+    public List<ComparisonResult> CompareFiles(string path, Comparator comparator)
     {
 
         var comparisonsList = new List<ComparisonResult>();
