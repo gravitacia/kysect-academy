@@ -4,7 +4,7 @@ namespace KysectAcademyTask;
 
 public class Output
 {
-    public void OutputResult(string? path, string? pathToSerialize, Comparator comparator)
+    public void OutputResult(string path, string pathToSerialize, Comparator comparator)
     {
         List<ComparisonResult> resultsList = new ComparisonLogic().CompareFiles(path, comparator);
 
