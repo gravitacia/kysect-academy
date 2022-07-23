@@ -17,6 +17,9 @@
 
   <ItemGroup>
     <PackageReference Include="DiffMatchPatch" Version="1.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.6.22329.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.6.22329.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0-preview.5.22302.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0-preview.5.22301.12" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0-preview.5.22301.12" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0-preview.5.22301.12" />
