@@ -1,8 +1,11 @@
 ﻿using KysectAcademyTask;
+using KysectAcademyTask.Config;
+using KysectAcademyTask.Output;
 
-var content = Configuration.LoadContent();
-var comparator = new Comparator();
 
+var configuration = new Configuration();
+double compareResult = new Comparator().CompareAlgorithm(configuration.RootPath[0], configuration.RootPath[1]);
+var comparisonResult = new ComparisonResult(configuration.RootPath[0], configuration.RootPath[1], compareResult);
 
-if (content != null)
-    new Output().OutputResult(content.RootPath, content.PathForResults, comparator);
+new Output().OutputResults(configuration.ResultFilter.FileType, 
+    configuration.ResultFilter.PathForResults, comparisonResult);

@@ -1,11 +1,21 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace KysectAcademyTask;
+namespace KysectAcademyTask.Config;
 
 public class Configuration
 {
-    public string RootPath { get; set; }
-    public string PathForResults { get; set; }
+
+    public Configuration()
+    {
+        LoadContent();
+    }
+    
+    public List<string> RootPath { get; set; } = null!;
+    public ResultFilter ResultFilter { get; set; } = null!;
+    public FileFilter FileFilter { get; set; } = null!;
+    public AuthorFilter AuthorFilter{ get; set; } = null!;
+    public SubmissionFilter SubmissionFilter { get; set; } = null!;
+    
     public static Configuration LoadContent()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
@@ -16,5 +26,4 @@ public class Configuration
         Configuration rootPath = section.Get<Configuration>();
         return rootPath;
     }
-
 }
