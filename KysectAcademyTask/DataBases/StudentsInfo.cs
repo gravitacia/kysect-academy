@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataBases;
 
-public class ApplicationContext : DbContext
+public class StudentsInfo : DbContext
 {
     public DbSet<Student> Students { get; set; }
     
-    public ApplicationContext()
+    public StudentsInfo()
     {
         Database.EnsureCreated();
     }
