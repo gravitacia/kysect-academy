@@ -16,4 +16,16 @@ public class DbFunctions
 
         new DbConfig().SaveSubmissionsCompare(submissionCompareresult);
     }
+
+    public List<SubmissionCompare> GetPreviousResults(bool config)
+    {
+        if (config)
+        {
+            return new DbConfig().GetSubmissionCompare();
+        }
+        else
+        {
+            throw new Exception("Can't get previous results!");
+        }
+    }
 }
