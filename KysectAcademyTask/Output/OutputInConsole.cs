@@ -1,4 +1,4 @@
-namespace KysectAcademyTask;
+namespace KysectAcademyTask.Output;
 
 public class OutputInConsole
 {

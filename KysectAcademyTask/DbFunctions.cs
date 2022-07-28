@@ -14,14 +14,14 @@ public class DbFunctions
         
         var submissionCompareresult = new SubmissionCompare(mixedId, firstPath, secondPath, result);
 
-        new DbConfig().SaveSubmissionsCompare(submissionCompareresult);
+        new DbCrud().SaveSubmissionsCompare(submissionCompareresult);
     }
 
     public List<SubmissionCompare> GetPreviousResults(bool config)
     {
         if (config)
         {
-            return new DbConfig().GetSubmissionCompare();
+            return new DbCrud().GetSubmissionCompare();
         }
         else
         {

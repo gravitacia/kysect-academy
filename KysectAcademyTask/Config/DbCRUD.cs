@@ -3,7 +3,7 @@ using KysectAcademyTask.DbEntities;
 
 namespace KysectAcademyTask.Config;
 
-public class DbConfig
+public class DbCrud
 {
     public void SaveStudents(Student student)
     {
