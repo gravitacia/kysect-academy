@@ -1,5 +1,6 @@
 using System.Text.Json;
-namespace KysectAcademyTask;
+
+namespace KysectAcademyTask.Output;
 
 public class OutputInJson
 {

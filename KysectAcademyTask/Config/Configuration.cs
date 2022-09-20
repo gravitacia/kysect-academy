@@ -16,6 +16,8 @@ public class Configuration
     public AuthorFilter AuthorFilter{ get; set; } = null!;
     public SubmissionFilter SubmissionFilter { get; set; } = null!;
     
+    public bool LoadPreviousResults { get; set; }
+    
     public static Configuration LoadContent()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
